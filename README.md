@@ -1,0 +1,1 @@
+# kij-hash-function
