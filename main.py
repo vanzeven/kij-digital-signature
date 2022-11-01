@@ -8,4 +8,8 @@ key_pair_generator = KeyPairGenerator()
 print(private_key)
 print(public_key)
 
-filepath = r'D:\Visual Studio Code\Python Programming\kij-digital-signature\AWS Academy Learner Lab - Student Guide.pdf'
+filepath = r'AWS Academy Learner Lab - Student Guide.pdf'
+hasher = HashFile()
+checksum = hasher.startHashFile(filepath)
+
+print(checksum)
