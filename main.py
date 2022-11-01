@@ -1,6 +1,7 @@
 import argparse
 import os
 
+from HashFile import HashFile
 from KeyPairGenerator import KeyPairGenerator
 
 
@@ -34,13 +35,21 @@ def parse_args():
     return args
 
 
+def write_key(filename, content):
+    f = open(filename, "w+")
+    f.write(content)
+    f.close()
+
 def load():
     key_pair_generator = KeyPairGenerator()
     (private_key, public_key) = key_pair_generator.generateKeyPair()
 
-    print(private_key)
-    print(public_key)
+    write_key(".\private_key.pem", private_key.decode())
+    write_key(".\public_key.pem", public_key.decode())
 
+def hashfile(path):
+    hash_generator = HashFile()
+    return hash_generator.startHashFile(path)
 
 if __name__ == '__main__':
     # Parsing command line arguments entered by user
@@ -50,7 +59,8 @@ if __name__ == '__main__':
     else:
         # If File Path
         if os.path.isfile(args['input_path']):
-            print("a file indeed")
+            hash = hashfile(args['input_path'])
+            print(hash)
             # sign_file(
             #     input_file=args['input_path'], output_file=args['output_file']
             # )
