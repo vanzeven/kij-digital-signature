@@ -3,6 +3,7 @@ import os
 
 from HashFile import HashFile
 from KeyPairGenerator import KeyPairGenerator
+from RSA_Algo import RSA_Algo
 
 
 def is_valid_path(path):
@@ -35,7 +36,7 @@ def parse_args():
     return args
 
 
-def write_key(filename, content):
+def write(filename, content):
     f = open(filename, "w+")
     f.write(content)
     f.close()
@@ -44,23 +45,37 @@ def load():
     key_pair_generator = KeyPairGenerator()
     (private_key, public_key) = key_pair_generator.generateKeyPair()
 
-    write_key(".\private_key.pem", private_key.decode())
-    write_key(".\public_key.pem", public_key.decode())
+    write(".\private_key.pem", private_key.decode())
+    write(".\public_key.pem", public_key.decode())
 
 def hashfile(path):
     hash_generator = HashFile()
     return hash_generator.startHashFile(path)
 
+def encryptor(path):
+     rsa = RSA_Algo()
+     key = open(".\private_key.pem", "rb")
+     key2 = key.read()
+     msg = open(path, "rb")
+     msg2 = msg.read()
+     print(msg2)
+     cipher = rsa.encrypt(msg2, key2)
+     # write("encrypted.txt", cipher)
+     key.close()
+     msg.close()
+
 if __name__ == '__main__':
     # Parsing command line arguments entered by user
     args = parse_args()
-    if args['load'] == True:
+    if args['load']:
         load()
     else:
         # If File Path
         if os.path.isfile(args['input_path']):
-            hash = hashfile(args['input_path'])
-            print(hash)
+            encryptor(args['input_path'])
+
+            # hash = hashfile(args['input_path'])
+
             # sign_file(
             #     input_file=args['input_path'], output_file=args['output_file']
             # )
