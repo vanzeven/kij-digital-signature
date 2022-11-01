@@ -1,1 +1,1 @@
-# kij-hash-function
+# kij-digital-signature
